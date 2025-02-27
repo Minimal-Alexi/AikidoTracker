@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AikidoTest {
     private Aikido aikido;
@@ -13,7 +13,26 @@ public class AikidoTest {
     }
     @Test
     void testAddPracticeSession() {
-        aikido.addSession(new Date(), 90);
-        assertEquals(90, aikido.getTotalPracticeTime());
+        aikido.addSession("2024-02-01", 90);
+        assertEquals(90, aikido.getTotalTime());
+        aikido.addSession("2024-02-02", 90);
+        assertEquals(180, aikido.getTotalTime());
+    }
+    @Test
+    void testCheckEligibility() {
+        for(int i = 0; i < 100; ++i)
+        {
+            aikido.addSession("2024-02-01", 90);
+        }
+        assertTrue(aikido.checkEligibility());
+
+        aikido = new Aikido();
+        aikido.addSession("2024-02-01", 90);
+        aikido.addSession("2024-10-02", 90);
+        assertTrue(aikido.checkEligibility());
+
+        aikido = new Aikido();
+        aikido.addSession("2024-02-01", 90);
+        assertFalse(aikido.checkEligibility());
     }
 }
