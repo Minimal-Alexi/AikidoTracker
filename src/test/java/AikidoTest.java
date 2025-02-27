@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,5 +35,9 @@ public class AikidoTest {
         aikido = new Aikido();
         aikido.addSession("2024-02-01", 90);
         assertFalse(aikido.checkEligibility());
+    }
+    @Test
+    void testAddSessionFail() {
+        assertThrows(DateTimeParseException.class, () -> aikido.addSession("invalid", 90));
     }
 }

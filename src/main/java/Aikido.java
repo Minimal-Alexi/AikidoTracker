@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +13,15 @@ public class Aikido {
         logOfSessions = new ArrayList<>();
     }
     public void addSession(String date, int sessionTime) {
-        LocalDate localDate = LocalDate.parse(date);
-        logOfSessions.add(localDate);
-        totalTime += sessionTime;
+        try
+        {
+            LocalDate localDate = LocalDate.parse(date);
+            logOfSessions.add(localDate);
+            totalTime += sessionTime;
+        }catch (DateTimeParseException e)
+        {
+            throw new DateTimeParseException("Invalid date", date, 0);
+        }
     }
     public boolean checkEligibility(){
         if(logOfSessions.size() >= 100)
@@ -48,19 +55,31 @@ public class Aikido {
             switch (option) {
                 case 1:
                 {
-
+                    System.out.println("Enter Practice Session: \nDate: ");
+                    String date = scanner.next();
+                    System.out.println("Enter Practice Session Time (Minutes): ");
+                    int sessionTime = scanner.nextInt();
+                    aikido.addSession(date, sessionTime);
+                    break;
                 }
                 case 2:
                 {
-
+                    System.out.println("You have spent: " + aikido.getTotalTime() + " minutes");
+                    break;
                 }
                 case 3:
                 {
-
+                    if (aikido.checkEligibility()) {
+                        System.out.println("You have eligibility for Kyu graduation.");
+                        break;
+                    }
+                    System.out.println("You are not eligible for Kyu graduation.");
+                    break;
                 }
                 case 4:
                 {
-
+                    run = false;
+                    break;
                 }
                 default:
                 {
