@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Minimal-Alexi/AikidoTracker.git'
+                git branch: 'main', url: 'https://github.com/Minimal-Alexi/AikidoTracker.git'
+
             }
         }
         stage('Build') {
@@ -28,8 +29,11 @@ pipeline {
         }
         stage('Publish Coverage Report') {
             steps {
-                jacoco()
-            }
-        }
+                jacoco(
+            execPattern: '**/target/jacoco.exec', // Path to the JaCoCo execution data
+            classPattern: '**/target/classes',   // Path to the class files
+            sourcePattern: '**/src/main/java',   // Path to the source code
+            exclusionPattern: '**/test/**'       // (Optional) Exclude test classes or specific files
+        )
     }
 }
