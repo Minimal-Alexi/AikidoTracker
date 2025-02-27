@@ -29,12 +29,14 @@ pipeline {
         }
         stage('Publish Coverage Report') {
             steps {
-                jacoco(
-            execPattern: '**/target/jacoco.exec', // Path to the JaCoCo execution data
-            classPattern: '**/target/classes',   // Path to the class files
-            sourcePattern: '**/src/main/java',   // Path to the source code
-            exclusionPattern: '**/test/**'       // (Optional) Exclude test classes or specific files
-        )   }
+                   recordCoverage(
+                   tools: [[parser: 'JACOCO']],
+                   id: 'jacoco', name: 'JaCoCo Coverage',
+                   sourceCodeRetention: 'EVERY_BUILD',
+                   qualityGates: [
+                   [threshold: 60.0, metric: 'LINE', baseline: 'PROJECT', unstable: true],
+                   [threshold: 60.0, metric: 'BRANCH', baseline: 'PROJECT', unstable: true]]
+        )  }
         }
     }
 }
