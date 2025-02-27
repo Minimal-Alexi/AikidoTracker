@@ -34,6 +34,7 @@ pipeline {
             classPattern: '**/target/classes',   // Path to the class files
             sourcePattern: '**/src/main/java',   // Path to the source code
             exclusionPattern: '**/test/**'       // (Optional) Exclude test classes or specific files
-        )}
+        )   }
+        }
     }
 }
